@@ -1,0 +1,33 @@
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Upload Attendee</h4>
+                    </div>
+
+                    <div class="content">
+                        <form [formGroup]="fileUploadForm">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <input id="aFile" type="file" name="aFile" class="form-inline" accept=".csv" [(ngModel)]="file" formControlName="file" (change)="onFileSelect($event)" >
+                                    <!-- #aFileInput -->
+                                </div>
+                                <div class="col-md-4">
+                                    <button *ngIf="all.valid" id="uploadFile" type="submit" class="btn btn-success" (click)="uploadFile()">Upload</button>
+                                </div>
+                            </div>
+                        </form>
+                        <span *ngIf="all.invalid" style="color: red">Invalid File</span>
+
+                        <div *ngIf="submitted">
+                            <h4 style="color: #5cb85c">File uploaded successfully!</h4>
+                            <button class="btn btn-success" (click)="newFileUpload()">Upload New File</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

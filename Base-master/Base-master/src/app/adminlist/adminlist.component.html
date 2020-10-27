@@ -1,0 +1,52 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Admin</h4>
+                        <button id="create" class="btn btn-success" (click)="createAdmin()">Create Admin</button>
+                        <br />
+                        <br />
+                        <br />
+                        <div class = "form-inline">
+                            <input 
+                            id = "searchbar"
+                            type = "text"
+                            class = "form-control mr-1"
+                            placeholder="Search Admin"
+                            [(ngModel)] = "username"
+                            />
+                            <!--
+                            <button type="button" class="btn btn-light" id="searchbtn" (click)="searchAdmin()">Search</button>
+                            -->
+                        </div>      
+                    </div>
+                
+                        
+                    <div class="content table-responsive table-full-width">
+                          <table id = "tab" class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>FullName</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let admins of admin |filter:username">
+                                        <td>{{admins.username}}</td>
+                                        <td>{{admins.fullName}}</td>
+                                        <td>{{admins.email}}</td>
+                                        <td><button><a id="adminlink" href="/#/events/admin/update/{{admins.id}}">Edit</a></button></td>
+                                        
+                                    </tr>
+                                </tbody>
+                          </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

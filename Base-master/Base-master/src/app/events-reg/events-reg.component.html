@@ -1,0 +1,148 @@
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Create Event</h4>
+                    </div>
+                    <div class="content">
+                        <form *ngIf="!submitted" [formGroup]="eventform">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Event Name</label>
+                                        <input id="name" type="text" class="form-control" placeholder="Name" [(ngModel)]="event.eventName" name="eventName" formControlName="name"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Event Venue</label>
+                                        <input type="text" class="form-control" placeholder="Venue" [(ngModel)]="event.eventVenue" name="eventVenue" formControlName="venue"/>
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input type="email" class="form-control" placeholder="Email">
+                                    </div>
+                                </div>
+                            -->
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Start Date</label>
+                                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" [(ngModel)]="event.eventDate" name="eventDate" formControlName="startdate" (change)="verifyStartEnd()"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>End Date</label>
+                                        <input type="date" class="form-control" placeholder="mm/dd/yyyy" [(ngModel)]="event.eventEndDate" name="eventDate" formControlName="enddate" (change)="verifyStartEnd()"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#genDates" *ngIf="startEndValid">collapse</button>
+                                </div>
+                            </div>
+                            <span *ngIf="!startEndValid" style="color: red">Start Date should not be greater than End Date</span>
+                            
+                            <div class="row" *ngIf="startEndValid">
+                                <div id="genDates" class="col-md-10 collapse in">
+                                    <div class="form-group" *ngFor="let date of datesList">
+                                        <input id="{{date}}" type="checkbox" class="form-check-input" (click)="removeDate($event)" value="{{date}}" checked>
+                                        <label class="form-check-label" for="{{date}}">&nbsp;{{date}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Start Time</label>
+                                        <input type="text" class="form-control" placeholder="Start Time" [(ngModel)]="event.eventStartTime" name="eventStartTime" formControlName="starttime"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>End Time</label>
+                                        <input type="text" class="form-control" placeholder="End Time" [(ngModel)]="event.eventEndTime" name="eventEndTime" formControlName="endtime"/>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Event Coordinator</label>
+                                        <input type="text" class="form-control" placeholder="Coordinator" [(ngModel)]="event.eventCoordinator" name="eventCoordinator" formControlName="coor"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Event Organisation</label>
+                                        <input type="text" class="form-control" placeholder="Organisation" [(ngModel)]="event.eventOrganisation" name="eventOrganisation" formControlName="org"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Technology Area</label>
+                                        <!-- <input type="text" class="form-control" placeholder="Technology Area" [(ngModel)]="event.eventTechnologyArea" name="eventTechnologyArea" formControlName="tech"/> -->
+                                        <select class="form-control" [(ngModel)]="event.eventTechnologyArea" name="eventTechnologyArea" formControlName="tech">
+                                            <option selected hidden>---</option>
+                                            <option *ngFor="let course of courseName">{{course}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Contact Person</label>
+                                        <input type="text" class="form-control" placeholder="ContactPerson" [(ngModel)]="event.eventContactPerson" name="eventContactPerson" formControlName="cp"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Contact Person Hp</label>
+                                        <input type="text" class="form-control" placeholder="ContactPersonHP" [(ngModel)]="event.eventContactPersonHP" name="eventContactPersonHP" formControlName="cphp"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Contact Person Email</label>
+                                        <input type="text" class="form-control" placeholder="ContactPersonEmail" [(ngModel)]="event.eventContactPersonEmail" name="eventContactPersonEmail" formControlName="cpemail"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Event Description</label>
+                                        <textarea rows="5" class="form-control" placeholder="Here can be your description" name="eventDescription" [(ngModel)]="event.eventDescription" formControlName="desc"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <span *ngIf="all.invalid" style="color: red">All fields are required</span>
+                            <p id="errormsg" style="color:red;"></p>
+                            <br />
+                            <button *ngIf="all.valid && startEndValid" type="submit" class="btn btn-info btn-fill pull-right" (click)="saveEvent()">Create Event</button>
+                            <div class="clearfix"></div>
+                        </form>
+                        <div *ngIf="submitted">
+                            <h4>You submitted successfully!</h4>
+                            <button class="btn btn-success" (click)="newEvent()">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   

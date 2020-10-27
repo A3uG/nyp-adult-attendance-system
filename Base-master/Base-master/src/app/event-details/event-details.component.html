@@ -1,0 +1,196 @@
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">{{currentEvent.eventName}}</h4>
+                        <button id="delete" class="btn btn-danger" (click)="deleteEvent()">Delete Event</button>
+                        <button id="update" class="btn btn-warning"><a id = "updatelink" href="/#/events/{{ currentEvent.eventID }}/update">Update Event</a></button>
+                        <button id="pm-scan" class="btn btn-secondary" *ngIf="dateSelectedIsTrue" (click)="popUp('PM')">Scan QR Code [PM]</button>
+                        <button id="am-scan" class="btn btn-secondary" *ngIf="dateSelectedIsTrue" (click)="popUp('AM')">Scan QR Code [AM]</button>
+                        <a #amScanLink id="am-scanlink" href="/#/events/{{ currentEvent.eventID }}/am-scan?currentDate={{ dateSelected }}" hidden></a>
+                        <a #pmScanLink id="pm-scanlink" href="/#/events/{{ currentEvent.eventID }}/pm-scan?currentDate={{ dateSelected }}" hidden></a>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <label>Event Description</label>
+                                <p>{{currentEvent.eventDescription}}</p>
+                            </div>
+                            <div class="col-md-2">
+                                <label><strong>SELECTED DATE</strong></label>
+                                <select id="eventDate" class="form-control" [(ngModel)]="eventDates" name="eventDates" (change)="onDateChange(eventDates)"><!--formControlName-->
+                                    <!-- <option *ngIf="todayDateExist" [value]="todayDate" selected>{{todayDate}}</option> -->
+                                    <option *ngFor="let date of dates" [value]="date">{{date}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                         <div class="row">
+                                <div class="col-md-3">
+                                        <label>Event Venue</label>
+                                        <p>{{currentEvent.eventVenue}}</p>
+                                       
+                                    
+                                </div>                            
+                                <div class="col-md-3">
+                               
+                                        <label>Start Date</label>
+                                        <p>{{currentEvent.eventDate}}</p>
+                                    
+                                </div>
+                                <div class="col-md-3">
+                               
+                                    <label>End Date</label>
+                                    <p>{{currentEvent.eventEndDate}}</p>
+                                
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    
+                                        <label>Start Time</label>
+                                        <p>{{currentEvent.eventStartTime}}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    
+                                        <label>End Time</label>
+                                        <p>{{currentEvent.eventEndTime}}</p>
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    
+                                        <label>Course Coordinator</label>
+                                        <p>{{currentEvent.eventCoordinator}}</p>
+                                   
+                                </div>
+                                <div class="col-md-3">
+                                   
+                                        <label>Course Organisation</label>
+                                        <p>{{currentEvent.eventOrganisation}}</p>
+                                    
+                                </div>
+                                <div class="col-md-3">
+                                   
+                                    <label>Technology Area</label>
+                                    <p>{{currentEvent.eventTechnologyArea}}</p>
+                                
+                            </div>
+                            </div>
+                        
+                            <div class="row">
+                                <div class="col-md-3">
+                          
+                                        <label>Contact Person</label>
+                                        <p>{{currentEvent.eventContactPerson}}</p>
+                                   
+                                </div>
+                                <div class="col-md-3">
+       
+                                        <label>Contact Person Hp</label>
+                                        <p>{{currentEvent.eventContactPersonHP}}</p>
+                                
+                                </div>
+                                <div class="col-md-3">
+       
+                                        <label>Contact Person Email</label>
+                                        <p>{{currentEvent.eventContactPersonEmail}}</p>
+                                </div>           
+                            </div>
+
+                            <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Attendee</h4>
+                        <button id="createuser" class="btn btn-success"><a id="userlink" href="/#/events/{{ currentEvent.eventID }}/user-creation?start={{ currentEvent.eventDate }}&end={{ currentEvent.eventEndDate }}">Add Attendee</a></button>
+                        <button id="uploadFile" class="btn btn-primary"><a id="uploadlink" href="/#/events/{{ currentEvent.eventID }}/user-upload">Upload File</a></button>
+                        <br />
+                        <br />
+                        <br />
+                        
+                        <div class = "form-inline">
+                            <input
+                            id = "searchbar"
+                            type = "text"
+                            class = "form-control mr-1"
+                            placeholder="Search for attendee"
+                            [(ngModel)] = "userphoneNum"
+                            />
+                            <!-- <select class="form-control" [(ngModel)]="eventDates" name="eventDates">
+                                <option *ngFor="let date of dates">{{date}}</option>
+                            </select> -->
+                            <!--
+                            <button type="button" class="btn btn-light" id="searchbtn" (click)="searchuser()">Search</button>
+                            -->
+                        </div>      
+                    
+
+                       
+                        
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-hover table-striped">
+                              <thead>
+                                  <tr>
+                                      <th>FullName</th>
+                                      <th>Email</th>
+                                      <th>Phone Number</th>
+                                      <th>Company</th>
+                                      <th>AM Status</th>
+                                      <th>PM Status</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let eventUser of eventUsers |filter:userphoneNum">
+                                    <td>{{eventUser.user.fullName}}</td>
+                                    <td>{{eventUser.user.email}}</td>
+                                    <td>{{eventUser.user.phoneNum}}</td>
+                                    <td>{{eventUser.user.userCompany}}</td>
+                                    <td>{{eventUser.amStatus}}</td>
+                                    <td>{{eventUser.pmStatus}}</td>
+                                    <td><button><a id="editlink" href="/#/events/user/update/{{eventUser.user.id}}?currentDate={{ dateSelected }}">Edit</a></button></td>
+                                </tr>
+                                  <!-- <tr *ngFor="let user of users |filter:userphoneNum">
+                                      <td>{{user.fullName}}</td>
+                                      <td>{{user.email}}</td>
+                                      <td>{{user.phoneNum}}</td>
+                                      <td>{{user.userCompany}}</td>-->
+                                      <!-- for scandates if search==dates false -->
+                                      <!-- <td>{{user.amStatus}}</td>
+                                      <td>{{user.pmStatus}}</td>
+                                      <td><button><a id="editlink" href="/#/events/user/update/{{user.id}}">Edit</a></button></td>
+                                  </tr>  -->
+                                  <!--<tr *ngFor="let user of currentEvent.users;">
+                                      <td>{{user.fullName}}</td>
+                                      <td>{{user.email}}</td>
+                                      <td>{{user.phoneNum}}</td>
+                                      <td>{{user.userCompany}}</td>
+                                      <td>{{user.amStatus}}</td>
+                                      <td>{{user.pmStatus}}</td>
+                                      <td><button><a id="editlink" href="/#/events/user/update/{{user.id}}">Edit</a></button></td>
+                                  </tr>
+                                -->
+                              </tbody>
+                        </table>
+
+                  </div>
+                    
+                    
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   
+
+

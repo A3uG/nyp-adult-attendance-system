@@ -1,0 +1,50 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Events</h4>
+                        <button id="create" class="btn btn-success" (click)="createEvent()">Create Event</button>
+                        <br />
+                        <br />
+                        <br />
+                        <div class = "form-inline">
+                            <input 
+                            id = "searchbar"
+                            type = "text"
+                            class = "form-control mr-1"
+                            placeholder="Search Event"
+                            [(ngModel)] = "eventName"
+                            />
+                            <!--
+                            <button type="button" class="btn btn-light" id="searchbtn" (click)="searchEvent()">Search</button>
+                            -->
+                        </div>      
+                    </div>
+                
+                        
+                    <div class="content table-responsive table-full-width">
+                          <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Event Name</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let event of events |filter:eventName">
+                                        <td><a id="eventlink" href="/#/events/{{ event.eventID }}">{{event.eventName}}</a></td>
+                                        <td>{{event.eventDate}}</td>
+                                        <td>{{event.eventEndDate}}</td>
+                                    </tr>
+                                </tbody>
+                          </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

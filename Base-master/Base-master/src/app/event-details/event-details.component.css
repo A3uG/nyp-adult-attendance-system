@@ -1,0 +1,82 @@
+#update{
+    float: right;
+    position: relative;
+    bottom: 25px;
+    right: 30px;
+
+}
+
+#updatelink{
+    color: orange;
+}
+
+#delete{
+    float: right;
+    position: relative;
+    bottom: 25px;
+    right: 30px;
+}
+
+#createuser{
+    float: right;
+    position: relative;
+    bottom: 25px;
+    right: 30px;
+}
+
+#userlink{
+    color: green;
+}
+
+#uploadFile{
+    float: right;
+    position: relative;
+    bottom: 25px;
+    right: 30px;
+}
+
+#uploadlink {
+    color: #0275d8;
+}
+
+#am-scan{
+    float: right;
+    position: relative;
+    bottom: 25px;
+    right: 30px;
+}
+
+#am-scanlink{
+    color: black;
+}
+
+#pm-scan{
+    float: right;
+    position: relative;
+    bottom: 25px;
+    right: 30px;
+}
+
+#pm-scanlink{
+    color: rgb(0, 81, 255);
+}
+
+#editlink{
+    color: black;
+}
+/*
+.title{
+    position: relative;
+    top: 20px;
+    
+}
+*/
+
+#searchbar{
+    width: 80%;
+    position: relative;
+}
+
+table{
+    font-size: 17px;
+}
