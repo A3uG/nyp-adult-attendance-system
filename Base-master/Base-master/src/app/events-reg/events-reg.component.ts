@@ -28,6 +28,7 @@ export class EventsRegComponent implements OnInit {
   datesList = [];
   startEndValid = false;
   removalDates = [];
+  lecturers;
 
   eventform = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -56,7 +57,9 @@ export class EventsRegComponent implements OnInit {
 
   constructor(private eventsService: EventsService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.getLecturers();
+  }
 
   saveEvent() {
     var submittedEvent;
@@ -190,6 +193,12 @@ export class EventsRegComponent implements OnInit {
         this.startEndValid = true;
 
         while (currentDate <= endDate) {
+
+          // check if date is weekend, auto uncheck
+          // if (currentDate.getDay() == 6 || currentDate.getDay() == 7){
+          //   console.log('weekend', currentDate);
+          // }
+          
           this.datesList.push(currentDate.toISOString().substr(0, 10));
           currentDate = new Date(currentDate);
           currentDate.setDate(currentDate.getDate() + 1);
@@ -235,6 +244,19 @@ export class EventsRegComponent implements OnInit {
       }
     }
     // console.log("remove dates", this.removalDates);
+  }
+
+  getLecturers(){
+    this.eventsService.getAllLecturers()
+    .subscribe(
+      data => {
+        this.lecturers = data;
+        console.log("Lecturers", data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }
 

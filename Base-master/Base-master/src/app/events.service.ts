@@ -66,7 +66,7 @@ export class EventsService {
   }
 
 
-  //eventUser
+  //EventUser
   createEventUser(data){
     return this.http.post(`${baseUrl}/eventUser`,data);
   }
@@ -84,7 +84,7 @@ export class EventsService {
   }
 
 
-  //date
+  //Date
   createDate(data){
     return this.http.post(`${baseUrl}/date`,data);
   }
@@ -99,5 +99,11 @@ export class EventsService {
 
   deleteDate(id, date){
     return this.http.delete(`${baseUrl}/date/delete/${id}/${date}`);
+  }
+
+
+  //Lecturer
+  getAllLecturers(){
+    return this.http.get(`${baseUrl}/lecturers/all`);
   }
 }

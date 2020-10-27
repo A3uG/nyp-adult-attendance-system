@@ -1,4 +1,4 @@
-const { eventUser } = require("../models/index.js");
+const { eventUser, lecturer } = require("../models/index.js");
 
 module.exports = app => {
     const events = require("../controllers/event.controller.js");
@@ -6,6 +6,7 @@ module.exports = app => {
     const Admin = require("../controllers/admin.controller.js");
     const eventUser = require("../controllers/eventUser.controller.js");
     const date = require("../controllers/date.controller.js");
+    const lecturer = require("../controllers/lecturer.controller.js");
   
     var router = require("express").Router();
   
@@ -64,6 +65,8 @@ module.exports = app => {
     //Get single Event data on specific date
     router.get("/eventUser/all/:id/:date", eventUser.findAllToday);
 
+
+
     //Date
     router.post("/date", date.create);
 
@@ -72,4 +75,10 @@ module.exports = app => {
     router.put("/date/update/:id/:date", date.update);
     
     router.delete("/date/delete/:id/:date", date.delete);
+
+
+
+    //Lecturer
+    router.get("/lecturers/all", lecturer.findAll);
+
   };

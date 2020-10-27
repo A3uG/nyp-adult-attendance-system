@@ -76,7 +76,11 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Event Coordinator</label>
-                                        <input type="text" class="form-control" placeholder="Coordinator" [(ngModel)]="currentEvent.eventCoordinator" name="eventCoordinator" formControlName="coor"/>
+                                        <!-- <input type="text" class="form-control" placeholder="Coordinator" [(ngModel)]="currentEvent.eventCoordinator" name="eventCoordinator" formControlName="coor"/> -->
+                                        <select class="form-control" [(ngModel)]="currentEvent.eventCoordinator" name="eventCoordinator" formControlName="coor">
+                                            <!-- <option selected>---</option> -->
+                                            <option *ngFor="let lect of lecturers">{{lect.lectName}}</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -88,7 +92,11 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Technology Area</label>
-                                        <input type="text" class="form-control" placeholder="Technology Area" [(ngModel)]="currentEvent.eventTechnologyArea" name="eventTechnologyArea" formControlName="tech"/>
+                                        <!-- <input type="text" class="form-control" placeholder="Technology Area" [(ngModel)]="currentEvent.eventTechnologyArea" name="eventTechnologyArea" formControlName="tech"/> -->
+                                        <select class="form-control" [(ngModel)]="currentEvent.eventTechnologyArea" name="eventTechnologyArea" formControlName="tech">
+                                            <!-- <option selected hidden>---</option> -->
+                                            <option *ngFor="let course of courseName">{{course}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

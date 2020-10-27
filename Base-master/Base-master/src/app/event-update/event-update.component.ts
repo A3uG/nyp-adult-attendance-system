@@ -16,6 +16,7 @@ export class EventUpdateComponent implements OnInit {
   startEndValid = true;
   datesTableList;    //store dates retrieved from dates table
   eventID;
+  lecturers;
 
   eventform = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -34,6 +35,10 @@ export class EventUpdateComponent implements OnInit {
 
   })
 
+  courseName = ["Basic Programming Skills", "Business & Big Data Analytics", "Cyber Security", "Data Visualisation",
+    "Digital Literacysptial", "Infocomm & Digital media (IT NW and System)", "Adminstration", "Information Security",
+    "Innovation", "Mobile Computing", "Office Software", "Problem Solving Skills", "Social Media & Analytics", "Software Quality"]
+
   get all() {
     return this.eventform
   }
@@ -46,6 +51,7 @@ export class EventUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventID = this.route.snapshot.paramMap.get('id');
+    this.getLecturers();
     this.getEvent(this.eventID);
     this.getDates(this.eventID);
   }
@@ -254,5 +260,18 @@ export class EventUpdateComponent implements OnInit {
         }
       }
     }
+  }
+
+  getLecturers(){
+    this.eventsService.getAllLecturers()
+    .subscribe(
+      data => {
+        this.lecturers = data;
+        console.log("Lecturers", data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }
