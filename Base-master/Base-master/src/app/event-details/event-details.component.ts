@@ -24,8 +24,9 @@ export class EventDetailsComponent implements OnInit {
   todayDate;
   todayDateExist = false;
   eventDates;   //select option set default
-  @ViewChild('amScanLink') amScanLink:ElementRef;
-  @ViewChild('pmScanLink') pmScanLink:ElementRef;
+  @ViewChild('amScanLink') amScanLink: ElementRef;
+  @ViewChild('pmScanLink') pmScanLink: ElementRef;
+  datesData = [];
 
   constructor(
     private eventsService: EventsService,
@@ -37,6 +38,7 @@ export class EventDetailsComponent implements OnInit {
     this.message = '';
     this.paramid = this.route.snapshot.paramMap.get('id');
     //this.startDate = this.route.snapshot.queryParams['start'];
+    this.getDates(this.paramid);
     this.getEvent(this.paramid);
     this.getUsers(this.paramid);
   }
@@ -68,17 +70,17 @@ export class EventDetailsComponent implements OnInit {
       );
   }
 
-  getEventUser(eventID, date){
+  getEventUser(eventID, date) {
     this.eventsService.getAllEventUserToday(eventID, date)
-    .subscribe(
-      data => {
-        this.eventUsers = data;
-        console.log("DATA - EVENTUSER", data);
-      },
-      error => {
-        console.log(error);
-      }
-    );
+      .subscribe(
+        data => {
+          this.eventUsers = data;
+          console.log("DATA - EVENTUSER", data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   deleteEvent() {
@@ -150,50 +152,94 @@ export class EventDetailsComponent implements OnInit {
     }
   }
   */
+  getDates(id) {
+    this.eventsService.getSingleEventDate(id)
+      .subscribe(
+        data => {
+          var tableData;
+          tableData = data;
+          // console.log('tableData', tableData);
+          for (var i of tableData) {
+            // console.log('i', i);
+            if (i.checked == true){
+              this.datesData.push(i);
+            }
+          }
+          // console.log('datesData', this.datesData);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
 
   //generate dates in from start to end dates
   fillDates() {
-    var startDate = new Date(this.currentEvent.eventDate);
-    var endDate = new Date(this.currentEvent.eventEndDate);
-    var currentDate = startDate;
-    // console.log(this.currentEvent.eventDate);
-    // var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]//mth name
-    
-    while (currentDate <= endDate) {
-      this.dates.push(currentDate.toISOString().substr(0, 10));
-      // this.dates.push(currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDate());
-      // this.dates.push(currentDate.getDate()+ " " + months[currentDate.getMonth()] + " " + currentDate.getFullYear());//mth name
-      currentDate = new Date(currentDate);
-      currentDate.setDate(currentDate.getDate() + 1); 
-    }
-    console.log("dates array", this.dates);
-
+    // console.log('fillDate datesData', this.datesData);
+    // console.log('fff ', this.datesData[0].date)
 
     var today = new Date();
     this.todayDate = today.toISOString().substr(0, 10);
-    for(var i of this.dates){
-      if (i == this.todayDate){
-        console.log("there is a event today!");
+    for (var i of this.datesData) {
+      if (i == this.todayDate) {
         this.todayDateExist = true;
-        this.eventDates = i;    //select option set default
-        this.dateSelected = i;
-        this.getEventUser(this.paramid, i);
+        this.eventDates = i.date;
+        this.dateSelected = i.date;
+        this.getEventUser(this.paramid, i.date);
         this.dateSelectedIsTrue = true;
       }
-      else{
-        this.eventDates = this.dates[0];    //select option set default
-        this.dateSelected = this.dates[0];  
-        this.getEventUser(this.paramid, this.dates[0]);
+      else {
+        this.eventDates = this.datesData[0].date;    //select option set default
+        this.dateSelected = this.datesData[0].date; 
+        this.getEventUser(this.paramid, this.datesData[0].date);
         this.dateSelectedIsTrue = true;
       }
     }
   }
 
-  onDateChange(cDate){
-    if (this.dateSelected == ''){
+  // //generate dates in from start to end dates
+  // fillDates() {
+  //   var startDate = new Date(this.currentEvent.eventDate);
+  //   var endDate = new Date(this.currentEvent.eventEndDate);
+  //   var currentDate = startDate;
+  //   // console.log(this.currentEvent.eventDate);
+  //   // var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]//mth name
+
+  //   while (currentDate <= endDate) {
+  //     this.dates.push(currentDate.toISOString().substr(0, 10));
+  //     // this.dates.push(currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDate());
+  //     // this.dates.push(currentDate.getDate()+ " " + months[currentDate.getMonth()] + " " + currentDate.getFullYear());//mth name
+  //     currentDate = new Date(currentDate);
+  //     currentDate.setDate(currentDate.getDate() + 1); 
+  //   }
+  //   console.log("dates array", this.dates);
+
+
+  //   var today = new Date();
+  //   this.todayDate = today.toISOString().substr(0, 10);
+  //   for(var i of this.dates){
+  //     if (i == this.todayDate){
+  //       console.log("there is a event today!");
+  //       this.todayDateExist = true;
+  //       this.eventDates = i;    //select option set default
+  //       this.dateSelected = i;
+  //       this.getEventUser(this.paramid, i);
+  //       this.dateSelectedIsTrue = true;
+  //     }
+  //     else{
+  //       this.eventDates = this.dates[0];    //select option set default
+  //       this.dateSelected = this.dates[0];  
+  //       this.getEventUser(this.paramid, this.dates[0]);
+  //       this.dateSelectedIsTrue = true;
+  //     }
+  //   }
+  // }
+
+  onDateChange(cDate) {
+    if (this.dateSelected == '') {
       console.log("NO DATE SELECTED ", cDate);
     }
-    else{
+    else {
       // console.log("SELECTED DATE ", cDate);
       this.dateSelected = cDate;
       this.dateSelectedIsTrue = true;
@@ -201,10 +247,10 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
-  popUp(time){
-    if (confirm("Scan QR Code for: \n" + this.currentEvent.eventName + "\n" + this.dateSelected + " [" + time + "] \n\nPress OK to continue")){
-      
-      if (time == "AM"){
+  popUp(time) {
+    if (confirm("Scan QR Code for: \n" + this.currentEvent.eventName + "\n" + this.dateSelected + " [" + time + "] \n\nPress OK to continue")) {
+
+      if (time == "AM") {
         let am: HTMLElement = this.amScanLink.nativeElement as HTMLElement;
         am.click();
       }
@@ -213,8 +259,8 @@ export class EventDetailsComponent implements OnInit {
         pm.click();
       }
     }
-    else{
-       //no event
+    else {
+      //no event
     }
   }
 }

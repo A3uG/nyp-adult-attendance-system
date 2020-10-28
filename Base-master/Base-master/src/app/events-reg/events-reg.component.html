@@ -79,10 +79,14 @@
                                     <div class="form-group">
                                         <label>Event Coordinator</label>
                                         <!-- <input type="text" class="form-control" placeholder="Coordinator" [(ngModel)]="event.eventCoordinator" name="eventCoordinator" formControlName="coor"/> -->
-                                        <select class="form-control" [(ngModel)]="event.eventCoordinator" name="eventCoordinator" formControlName="coor">
+                                        <!-- <select class="form-control" [(ngModel)]="event.eventCoordinator" name="eventCoordinator" formControlName="coor">
                                             <option selected hidden>---</option>
                                             <option *ngFor="let lect of lecturers">{{lect.lectName}}</option>
-                                        </select>
+                                        </select> -->
+                                        <input type="text" class="form-control" placeholder="Coordinator" [(ngModel)]="event.eventCoordinator" name="eventCoordinator" formControlName="coor" list="dynamicLect"/>
+                                        <datalist id="dynamicLect">
+                                            <option *ngFor="let lect of lecturers">{{lect.lectName}}</option>
+                                        </datalist>
                                     </div>
                                 </div>
                                 <div class="col-md-4">

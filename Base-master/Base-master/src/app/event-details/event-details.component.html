@@ -22,8 +22,10 @@
                                 <label><strong>SELECTED DATE</strong></label>
                                 <select id="eventDate" class="form-control" [(ngModel)]="eventDates" name="eventDates" (change)="onDateChange(eventDates)"><!--formControlName-->
                                     <!-- <option *ngIf="todayDateExist" [value]="todayDate" selected>{{todayDate}}</option> -->
-                                    <option *ngFor="let date of dates" [value]="date">{{date}}</option>
+                                    <!-- <option *ngFor="let date of dates" [value]="date">{{date}}</option> -->
+                                    <option *ngFor="let date of datesData" [value]="date.date">{{date.date}}</option>
                                 </select>
+                                <label>Unchecked dates will not be shown</label>
                             </div>
                         </div>
                         <br />
