@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild ,ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { EventsService } from '../events.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
 import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import * as _ from 'lodash';
-     
+
 @Component({
   selector: 'app-user-upload',
   templateUrl: './user-upload.component.html',
@@ -12,20 +13,22 @@ import * as _ from 'lodash';
 export class UserUploadComponent implements OnInit {
   submitted: boolean = false;
   fileData: any[] = [];
-  attendees = {
-    name: '',
-    phone: '',
+  newAttendee = {
+    fullName: '',
+    phoneNum: '',
     email: '',
-    company: ''
+    eventEventID: this.route.snapshot.paramMap.get('id'),
+    id: uuidv4(),
+    userCompany: ''
   }
 
   //ngModel
-  file = '';  
+  file = '';
 
   //using [ngModel], ElementRef not required
   // @ViewChild('aFileInput') aFileInput: ElementRef;          //create template reference to reset input on submit
 
-  constructor(private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder, private eventsService: EventsService,) {
 
   }
 
@@ -36,13 +39,12 @@ export class UserUploadComponent implements OnInit {
     file: new FormControl('', Validators.required)
   });
 
-  get all(){
+  get all() {
     return this.fileUploadForm
   }
 
-  uploadFile(){
-    console.log("file function running")
-    if (this.all.valid){
+  uploadFile() {
+    if (this.all.valid) {
       this.submitted = true;
 
       //for ElementRef
@@ -50,51 +52,58 @@ export class UserUploadComponent implements OnInit {
       // this.aFileInput.nativeElement.value = "";                       //reset input field to empty string
       // console.log("2" +  this.aFileInput.nativeElement.value)
 
-      console.log('file name is ' +  this.file);
-      
-      
+      // console.log('file name is ' + this.file);
     }
   }
 
-
-
-  onFileSelect(event){
-    if (event.target.files.length > 0){
+  async onFileSelect(event) {
+    if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log("fileName is " + file.name);
-      console.log("fileSize is " + file.size);
-      console.log("fileType is " + file.type);
+      // console.log("fileName is " + file.name);
+      // console.log("fileSize is " + file.size);
+      // console.log("fileType is " + file.type);
 
       //check file type
       let af = ['application/vnd.ms-excel']
-      if(!_.includes(af, file.type)){
+      if (!_.includes(af, file.type)) {
         alert("Excel (CSV) File Only");
       }
 
       //file reader method
       let reader: FileReader = new FileReader();
       reader.readAsText(file);
-      reader.onload = (e) => {
-        let csv:any = reader.result;
-        console.log("results are \n" + csv);
+      reader.onload = async (e) => {
+        let csv: any = reader.result;
+        // console.log("results are \n" + csv);
         let allTextLines = [];
-        // allTextLines = csv.split(/\r|\n|\r/);
-        // allTextLines = csv.split(/\r\n|\n/);
-        allTextLines = csv.split("\n");
-        console.log("allTextline are \n" + allTextLines);
+        allTextLines = csv.split(/\r|\n|\r/);
+        var filtered = allTextLines.filter(function (el) {
+          return el != '';
+        });
+        allTextLines = filtered
+        // console.log("allTextline are \n" + allTextLines);
 
-        for (let i = 0; i < allTextLines.length; i++){
-          console.log("-----");
-          console.log(allTextLines[i]);
-        }
-      } 
+        this.uploadAllUser(this.route.snapshot.paramMap.get('id'), allTextLines);
+      }
     }
   }
 
-  newFileUpload(){
-    this.submitted = false;
-    this.file = '';
-    //check if file Upload is not empty
-    
+  backButton() {
+    this.router.navigate(['events/' + this.route.snapshot.paramMap.get('id')]);
+  }
+
+  uploadAllUser(id, data) {
+    this.eventsService.uploadAllUser(id, data)
+      .subscribe(
+        response => {
+          console.log('success!');
+          // console.log(response);
+          this.submitted = true;
+        },
+        error => {
+          console.log(error);
+          this.submitted = true;
+        }
+      );
   }
 }

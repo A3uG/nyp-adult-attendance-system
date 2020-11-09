@@ -43,6 +43,25 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Age (Optional)</label>
+                                        <input type="text" class="form-control" placeholder="Age (Optional)" [(ngModel)]="users.age" name="age" formControlName="age"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Gender (Optional)</label> <br>
+                                        <input type="radio" value="Male" [(ngModel)]="users.gender" name="gender" formControlName="gender"> Male &nbsp;
+                                        <input type="radio" value="Female" [(ngModel)]="users.gender" name="gender" formControlName="gender"> Female
+                                    </div>
+                                </div>
+                            </div>
                         
                             <br />
                             <span *ngIf="all.invalid" style="color: red">All fields are required</span>

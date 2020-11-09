@@ -44,6 +44,8 @@ module.exports = app => {
 
     router.get('/users/:id',users.findAllbyeventid);
 
+    router.post("/users/:id/upload", users.uploadAllUser);
+
     // Admin
 
     router.post("/admin",Admin.create);

@@ -21,9 +21,10 @@ export class UserUpdateComponent implements OnInit {
     company: new FormControl('', Validators.required),
     phoneNum: new FormControl('', Validators.required),
     email: new FormControl('',Validators.required),
+    age: new FormControl(''),
+    gender: new FormControl(''),
     am: new FormControl('',Validators.required),
-    pm: new FormControl('',Validators.required),
-    
+    pm: new FormControl('',Validators.required)
   })
   
   get all(){

@@ -26,6 +26,14 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false
       },
+      age: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
+      gender: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       // amStatus: {
       //   type: Sequelize.BOOLEAN,
       //   defaultValue: false

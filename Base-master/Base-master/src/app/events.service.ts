@@ -65,6 +65,10 @@ export class EventsService {
     return this.http.get(`${baseUrl}/users/${id}`);
   }
 
+  uploadAllUser(id, data){
+    return this.http.post(`${baseUrl}/users/${id}/upload`,data);
+  }
+
 
   //EventUser
   createEventUser(data){

@@ -54,7 +54,7 @@
                             <div class="row" *ngIf="startEndValid">
                                 <div id="genDates" class="col-md-10 collapse in">
                                     <div class="form-group" *ngFor="let date of datesList">
-                                        <input id="{{date}}" type="checkbox" class="form-check-input" (click)="removeDate($event)" value="{{date}}" checked>
+                                        <input id="{{date}}" type="checkbox" class="form-check-input" (click)="removeDate($event)" value="{{date}}">
                                         <label class="form-check-label" for="{{date}}">&nbsp;{{date}}</label>
                                     </div>
                                 </div>

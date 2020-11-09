@@ -17,6 +17,8 @@ export class UserCreationComponent implements OnInit {
     email: '',
     id: uuidv4(),
     userCompany: '',
+    age: null,
+    gender: null
   }
   submitted = false;
 
@@ -25,8 +27,8 @@ export class UserCreationComponent implements OnInit {
     company: new FormControl('', Validators.required),
     phoneNum: new FormControl('', Validators.required),
     email: new FormControl('',Validators.required),
-
-    
+    age: new FormControl(null),
+    gender: new FormControl(null),
   })
   
   get all(){
@@ -46,11 +48,15 @@ export class UserCreationComponent implements OnInit {
       fullName: this.users.fullName,
       phoneNum: this.users.phoneNum,
       email: this.users.email,
+      age: this.users.age,
+      gender: this.users.gender,
       eventEventID: this.route.snapshot.paramMap.get('id'),
       id: this.users.id,
       userCompany: this.users.userCompany,
       
     };
+
+    // console.log('user', data);
 
     this.eventsService.createuser(data)
     .subscribe(
@@ -126,7 +132,8 @@ export class UserCreationComponent implements OnInit {
       email: '',
       id: uuidv4(),
       userCompany: '',
-
+      age: null,
+      gender: null
     };
   }
 
