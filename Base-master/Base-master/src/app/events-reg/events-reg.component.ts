@@ -105,14 +105,14 @@ export class EventsRegComponent implements OnInit {
             if (this.removalDates.includes(this.datesList[i])){
               var dateData = {
                 date: this.datesList[i],
-                checked: false,
+                checked: true,
                 eventEventID: submittedEvent.eventID
               }
             }
             else{
               var dateData = {
                 date: this.datesList[i],
-                checked: true,
+                checked: false,
                 eventEventID: submittedEvent.eventID
               }
             }
