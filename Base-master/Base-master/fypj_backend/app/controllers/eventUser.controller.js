@@ -78,7 +78,7 @@ exports.updateStatus = (req, res) => {
 
 };
 
-//Get single Event data on specific date
+//Get single Event data on specific date, including Users table
 exports.findAllToday = (req, res) => {
   const eventid = req.params.id;
   const date = req.params.date;
