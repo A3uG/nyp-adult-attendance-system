@@ -193,17 +193,10 @@ export class EventsRegComponent implements OnInit {
         this.startEndValid = true;
 
         while (currentDate <= endDate) {
-
-          // check if date is weekend, auto uncheck
-          // if (currentDate.getDay() == 6 || currentDate.getDay() == 7){
-          //   console.log('weekend', currentDate);
-          // }
-          
           this.datesList.push(currentDate.toISOString().substr(0, 10));
           currentDate = new Date(currentDate);
           currentDate.setDate(currentDate.getDate() + 1);
         }
-        // this.datesList
         // console.log("dates array", this.datesList);
       }
       else {

@@ -155,10 +155,11 @@ exports.uploadAllUser = (req, res) => {
       // get a list of dates in-between start and end date
       while (currentDate <= endDate) {
         // console.log(currentDate);
+        dateArray.push(currentDate.toISOString().substr(0, 10));
+        currentDate = new Date(currentDate);
         currentDate.setDate(currentDate.getDate() + 1);
-        dateArray.push(currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDate());
       }
-      // console.log("dateArray", dateArray);
+      console.log("dateArray", dateArray);
 
       for (var i = 0; i < attendeeData.length; i++) {
         // console.log("-----");
