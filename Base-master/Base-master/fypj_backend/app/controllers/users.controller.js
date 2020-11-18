@@ -3,6 +3,7 @@ const Users = db.users;
 const Event = db.event;
 const Op = db.Sequelize.Op;
 const { v4: uuidv4 } = require('uuid');
+const { start } = require("repl");
 const EventUser = db.eventUser;
 
 exports.createuser = (req, res) => {
@@ -133,58 +134,76 @@ exports.findAllbyeventid = (req, res) => {
 };
 
 exports.uploadAllUser = (req, res) => {
+  //1. retrieve event start date & end date
+  //2. generate a list of dates in between start and end
+  //3. get splitStr from .csv file, assign to newAttendee 
+  //4.  add eventuser, dun care if date exist anot. date table will handle (date only show if user checked the date) 
 
   // console.log('//', req.body);
   var attendeeData = req.body;
 
-  for (var i = 0; i < attendeeData.length; i++) {
-    // console.log("-----");
-    // console.log(attendeeData[i]);
+  var startDate, endDate, currentDate;
+  var dateArray = [];
 
-    var splitStr = attendeeData[i].split(",");
-    // console.log('split', splitStr);
+  Event.findByPk(req.params.id)
+    .then(data => {
+      startDate = new Date(data.dataValues.eventDate);
+      endDate = new Date(data.dataValues.eventEndDate);
+      currentDate = startDate;
+      console.log(startDate, endDate);
 
-    newAttendee = {
-      fullName: splitStr[0],
-      phoneNum: splitStr[1],
-      email: splitStr[2],
-      eventEventID: req.params.id,
-      id: uuidv4(),
-      userCompany: splitStr[3]
-    }
+      // get a list of dates in-between start and end date
+      while (currentDate <= endDate) {
+        // console.log(currentDate);
+        currentDate.setDate(currentDate.getDate() + 1);
+        dateArray.push(currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDate());
+      }
+      // console.log("dateArray", dateArray);
 
-    Users.create(newAttendee)
-      .then(data => {
-        // res.send("Upload Success!");
-      });
-    // .catch(err => {
-    //   res.status(500).send({
-    //     message:
-    //       err.message || "Some error occurred while creating the Attendee."
-    //   });
-    // });
+      for (var i = 0; i < attendeeData.length; i++) {
+        // console.log("-----");
+        // console.log(attendeeData[i]);
 
+        if (!i == 0) {      //remove first line header
+          var splitStr = attendeeData[i].split(",");
+          // console.log('split', splitStr);
 
-    // need to generate users into eventuser db
-    // need to retrieve date
+          var newAttendee = {
+            fullName: splitStr[2],
+            phoneNum: splitStr[3],
+            email: splitStr[4],
+            eventEventID: req.params.id,
+            id: uuidv4(),
+            userCompany: splitStr[5],
+            age: splitStr[6],
+            gender: splitStr[7]
+          }
+          // console.log(newAttendee);
 
-    // const eventUser = {
-    //   date: req.body.date,
-    //   amStatus: false,
-    //   pmStatus: false,
-    //   eventEventID: req.params.id,
-    //   userId: newAttendee.id
-    // }
-    // EventUser.create(eventUser)
-    //   .then(data => {
-    //     res.send(data);
-    //   })
-    //   .catch(err => {
-    //     res.status(500).send({
-    //       message:
-    //         err.message || "Some error occurred while creating the Event."
-    //     });
-    //   });
-  }
+          Users.create(newAttendee)
+            .then(data => {
+              // res.send("Upload Success!");
+            });
+
+          //ok now, do a for loop for multiple dates
+          for (var j = 0; j < dateArray.length; j++) {
+            const eventUser = {
+              date: dateArray[j],
+              amStatus: false,
+              pmStatus: false,
+              eventEventID: req.params.id,
+              userId: newAttendee.id
+            };
+            // console.log(dateArray[j]);
+
+            EventUser.create(eventUser)
+              .then(data => {
+                // res.send(data);
+              });
+          }
+        }
+      }
+    });
+
   res.send("Upload Success!");
 };
